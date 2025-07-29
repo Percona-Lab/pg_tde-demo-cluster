@@ -18,3 +18,9 @@ The `create_cluster.sh` script will output a token which can be used to connect 
 To create an initial backup run:
 
     incus exec pgbackrest -- sudo -u postgres pgbackrest --stanza=tde --type=full backup
+
+To test a restore then run for example:
+
+    incus exec db-restore -- sudo -u postgres pgbackrest --target-action --stanza=tde restore
+    incus exec db-restore -- sudo -u postgres /lib/postgresql/17/bin/pg_ctl -D /var/lib/postgresql/patroni-17 start
+    incus exec db-restore -- sudo -u postgres touch /var/lib/postgresql/patroni-17/recovery.signal
