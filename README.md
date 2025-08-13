@@ -21,6 +21,6 @@ To create an initial backup run:
 
 To test a restore then run for example:
 
-    incus exec db-restore -- sudo -u postgres pgbackrest --target-action --stanza=tde restore
+    incus exec db-restore -- sudo -u postgres pgbackrest --stanza=tde restore
     incus exec db-restore -- sudo -u postgres /lib/postgresql/17/bin/pg_ctl -D /var/lib/postgresql/patroni-17 start
     incus exec db-restore -- sudo -u postgres touch /var/lib/postgresql/patroni-17/recovery.signal
