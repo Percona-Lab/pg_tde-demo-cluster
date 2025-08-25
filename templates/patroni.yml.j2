@@ -11,12 +11,14 @@ bootstrap:
     loop_wait: 10
     retry_timeout: 10
     maximum_lag_on_failover: 1048576
-    master_start_timeout: 300
     postgresql:
       use_pg_rewind: true
+      use_slots: true
       parameters:
         archive_command: "/lib/postgresql/17/bin/pg_tde_archive_decrypt %f %p \"pgbackrest --stanza=tde archive-push %%p\""
+        archive_timeout: 600s
         archive_mode: "on"
+        logging_collector: "on"
         restore_command: "/lib/postgresql/17/bin/pg_tde_restore_encrypt %f %p \"pgbackrest --stanza=tde archive-get %%f \\\"%%p\\\"\""
       pg_hba:
         - local all all peer
@@ -35,7 +37,7 @@ postgresql:
   connect_address: {{ansible_host}}:5432
   data_dir: /var/lib/postgresql/patroni-17
   bin_dir: /lib/postgresql/17/bin
-  pgpass: /tmp/patronipgpass
+  pgpass: /var/lib/postgresql/patronipass
   authentication:
     replication:
       username: replicator
