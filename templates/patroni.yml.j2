@@ -28,8 +28,6 @@ bootstrap:
   initdb:
     - encoding: UTF8
     - data-checksums
-    - auth-local: peer
-    - auth-host: scram-sha-256
     - set: shared_preload_libraries=pg_tde
   post_init: /usr/local/bin/setup_cluster.sh
 postgresql:
