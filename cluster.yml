@@ -218,9 +218,10 @@
         mode: "600"
 
     - name: Start Patroni
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: patroni
         state: started
+        no_block: true
 
 - hosts: pgbackrest
   tasks:
