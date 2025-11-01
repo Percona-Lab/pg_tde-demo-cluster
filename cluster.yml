@@ -62,6 +62,23 @@
       openbao_architecture_map:
         x86_64: amd64
 
+- hosts: etcd
+  tasks:
+    - name: Install etcd
+      ansible.builtin.apt:
+        name: etcd-server
+
+    - name: Add etcd config
+      ansible.builtin.template:
+        dest: /etc/default/etcd
+        src: etcd.j2
+      notify: Restart etcd
+  handlers:
+    - name: Restart etcd
+      service:
+        name: etcd
+        state: restarted
+
 - hosts:
     - db
     - db-restore
@@ -204,23 +221,6 @@
       ansible.builtin.service:
         name: patroni
         state: started
-
-- hosts: etcd
-  tasks:
-    - name: Install etcd
-      ansible.builtin.apt:
-        name: etcd-server
-
-    - name: Add etcd config
-      ansible.builtin.template:
-        dest: /etc/default/etcd
-        src: etcd.j2
-      notify: Restart etcd
-  handlers:
-    - name: Restart etcd
-      service:
-        name: etcd
-        state: restarted
 
 - hosts: pgbackrest
   tasks:
